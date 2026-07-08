@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
+from typing import Optional
 
 
 @dataclass
@@ -14,19 +14,11 @@ class TicketResult:
 
 
 def check_tickets(origin: str, destination: str) -> list[TicketResult]:
-    # Placeholder implementation until we wire an official data source.
-    return [
-        TicketResult(
-            train_name="Sample Express",
-            train_number="00000",
-            travel_class="3A",
-            fare=1499,
-            availability="WL12",
-        )
-    ]
+    # Real ticket data source is not wired yet.
+    return []
 
 
-def choose_best_offer(results: list[TicketResult]) -> TicketResult | None:
+def choose_best_offer(results: list[TicketResult]) -> Optional[TicketResult]:
     if not results:
         return None
     return min(results, key=lambda item: item.fare)

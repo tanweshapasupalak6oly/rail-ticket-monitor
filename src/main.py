@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 from checker import choose_best_offer, check_tickets
+from notifier import notify
 
 ROUTE = {
     "origin": "KYN",
@@ -29,17 +30,23 @@ def main() -> None:
     best = choose_best_offer(results)
 
     if best:
-        print(
-            f"Best offer: {best.train_name} ({best.train_number}) | {best.travel_class} | "
-            f"₹{best.fare} | {best.availability}"
-        )
-        previous["last_best"] = {
+        current_best = {
             "train_name": best.train_name,
             "train_number": best.train_number,
             "travel_class": best.travel_class,
             "fare": best.fare,
             "availability": best.availability,
         }
+
+        last_best = previous.get("last_best")
+        if last_best != current_best:
+            notify(
+                "Better ticket found: "
+                f"{best.train_name} ({best.train_number}) | {best.travel_class} | "
+                f"₹{best.fare} | {best.availability}"
+            )
+
+        previous["last_best"] = current_best
 
     save_previous(previous)
 

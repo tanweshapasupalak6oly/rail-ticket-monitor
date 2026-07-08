@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+from checker import choose_best_offer, check_tickets
+
 ROUTE = {
     "origin": "KYN",
     "destination": "PURI",
@@ -23,6 +25,22 @@ def save_previous(data: dict) -> None:
 def main() -> None:
     print(f"Rail ticket monitor started for {ROUTE['origin']} -> {ROUTE['destination']}")
     previous = load_previous()
+    results = check_tickets(ROUTE["origin"], ROUTE["destination"])
+    best = choose_best_offer(results)
+
+    if best:
+        print(
+            f"Best offer: {best.train_name} ({best.train_number}) | {best.travel_class} | "
+            f"₹{best.fare} | {best.availability}"
+        )
+        previous["last_best"] = {
+            "train_name": best.train_name,
+            "train_number": best.train_number,
+            "travel_class": best.travel_class,
+            "fare": best.fare,
+            "availability": best.availability,
+        }
+
     save_previous(previous)
 
 

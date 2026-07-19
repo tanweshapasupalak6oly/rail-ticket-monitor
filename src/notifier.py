@@ -4,8 +4,9 @@ import os
 
 
 def notify(message: str) -> None:
-    email = os.getenv("ALERT_EMAIL")
-    if email:
-        print(f"Alert for {email}: {message}")
-    else:
-        print(message)
+    alert_target = os.getenv("ALERT_EMAIL")
+    if alert_target:
+        print(f"Alert for {alert_target}: {message}")
+        return
+
+    print(f"Alert: {message}")

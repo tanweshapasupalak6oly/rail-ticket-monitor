@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
 from typing import Optional
 
@@ -14,8 +15,15 @@ class TicketResult:
 
 
 def check_tickets(origin: str, destination: str) -> list[TicketResult]:
-    # Real ticket data source is not wired yet.
-    print(f"Checking tickets for {origin} -> {destination}")
+    """Return ticket offers for a route.
+
+    This repository does not yet have a live rail data source wired in.
+    For now, the route is read from environment variables so the project
+    can be configured without code changes.
+    """
+    source = os.getenv("RAIL_ORIGIN", origin)
+    target = os.getenv("RAIL_DESTINATION", destination)
+    print(f"Checking tickets for {source} -> {target}")
     return []
 
 
